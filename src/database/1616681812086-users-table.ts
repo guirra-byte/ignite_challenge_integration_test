@@ -23,6 +23,7 @@ export class usersTable1616681812086 implements MigrationInterface {
         {
           name: 'password',
           type: 'varchar',
+          isUnique: true
         },
         {
           name: 'created_at',

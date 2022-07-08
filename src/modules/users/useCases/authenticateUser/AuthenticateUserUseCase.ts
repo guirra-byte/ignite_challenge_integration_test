@@ -13,17 +13,29 @@ interface IRequest {
   password: string;
 }
 
+interface IRequireJWTPayload {
+
+  user: {
+    name: string,
+    email: string,
+    id?: string
+  },
+  token: string
+}
+
+const requireJWTPass: string = "f750766d2e4617e94eb4f943625ceeaa"
+
 @injectable()
 export class AuthenticateUserUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
-  ) {}
+  ) { }
 
   async execute({ email, password }: IRequest): Promise<IAuthenticateUserResponseDTO> {
     const user = await this.usersRepository.findByEmail(email);
 
-    if(!user) {
+    if (!user) {
       throw new IncorrectEmailOrPasswordError();
     }
 
@@ -33,20 +45,24 @@ export class AuthenticateUserUseCase {
       throw new IncorrectEmailOrPasswordError();
     }
 
-    const { secret, expiresIn } = authConfig.jwt;
-
-    const token = sign({ user }, secret, {
+    const token = sign({}, requireJWTPass, {
       subject: user.id,
-      expiresIn,
+      expiresIn: "1d",
     });
 
-    return {
+    const requireJWTResponse: IRequireJWTPayload = {
+
       user: {
-        id: user.id,
+
         name: user.name,
-        email: user.email
+        email: user.email,
+        id: user.id
       },
-      token
+      token: token
     }
+
+    console.log(requireJWTResponse);
+
+    return requireJWTResponse;
   }
 }

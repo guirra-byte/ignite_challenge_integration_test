@@ -1,4 +1,4 @@
-import { container } from 'tsyringe';
+import { container, delay } from 'tsyringe';
 
 import { IUsersRepository } from '../../modules/users/repositories/IUsersRepository';
 import { UsersRepository } from '../../modules/users/repositories/UsersRepository';
@@ -8,10 +8,10 @@ import { StatementsRepository } from '../../modules/statements/repositories/Stat
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
-  UsersRepository
+  delay(() => UsersRepository),
 );
 
 container.registerSingleton<IStatementsRepository>(
   'StatementsRepository',
-  StatementsRepository
+  delay(() => StatementsRepository),
 );

@@ -1,11 +1,10 @@
 {
-  "username": "postgres",
-  "password": "docker",
-
+  "username": "root",
   "name": "default",
-  "type": "postgres",
+  "password": "V84816756",
+  "type": "mysql",
   "host": "localhost",
-  "port": 5432,
+  "port": 3306,
   "database": "fin_api",
   "entities": [
     "./src/modules/**/entities/*.ts"
